@@ -42,17 +42,17 @@ echo "==========================================================================
 echo "                         Beggining TMRCA calculation."
 echo "                                                                                   "
 
-# Get coordinates of flanking variants that have EHH < 0.25, that is, Pr[Homoz] drops and >75% of recombination occurs outside selected haplotype
+# Get coordinates of flanking variants that have EHH < 0.25, that is, Pr[Homoz] drops below 25% and thus >75% of variants are due to recombination outside selected haplotype
 # This corresponds to putative recombination breaks, get physical positions on these
 for f in $(ls $out | grep $pop.*ehh.gz | sort -V)
    do zcat < $out/$f |
        awk '{
        if($4>0 && $4<0.25 && $3<0){ 
        upstream=$0;                   # < this will keep last record
-#        print left;
+#        print upstream;
        }else if($4>0 && $4<0.25 && $3>0){
        downstream=$0;
-#        print right;
+#        print downstream;
        exit                           # < this will keep first record
    }
    }END{print upstream "\n" downstream}' | tee -a $out/$pop.output.txt
