@@ -1,7 +1,7 @@
 #!/bin/bash
 : '
-The following script calculates
-the tMRCA for selected alleles
+The following script calculates the tMRCA for selected alleles.
+Provide coordinates in (-f), population name (1kG, e.g. "-p CLM"), output dir (-o). Needs also dir to PopLDdecay binary, vcf file (l36) and TPED (l71) edits in-script.
 '
 
 pop=''
@@ -42,8 +42,8 @@ echo "==========================================================================
 echo "                         Beggining TMRCA calculation."
 echo "                                                                                   "
 
-# Get coordinates of flanking variants that have EHH < 0.25, that is, Pr[Homoz] drops below 25% and thus >75% of variants are due to recombination outside selected haplotype
-# This corresponds to putative recombination breaks, get physical positions on these
+# Get coordinates of flanking variants that have EHH < 0.25, that is, Pr[Homoz] drops below 25% and thus >75% of chromosomes have recombined off of the selected haplotype, following that we'll then go get the recombination distance (r) 
+# These correspond to putative recombination breaks, get physical positions on them (bp)
 for f in $(ls $out | grep $pop.*ehh.gz | sort -V)
    do zcat < $out/$f |
        awk '{
@@ -72,8 +72,9 @@ while read l
     echo $l " "$cM
 done < $out/$pop.output.txt | 
 
-sed -e 's/  */ /g' | # space to tab substitution not currently working in Mac os X, should be replaced by \t in Linux
+sed -e 's/  */ /g' | # space to tab substitution not currently working in Mac OSX, should be replaced by \t in Linux
 awk '{print $0 } NR%2{p=$7;next}{print($7-p)" "((-25*100*log(0.25))/($7-p)) " " "<<<- tMRCA" }' | # awk -v n=1 '1; NR % n == 0 {print ""}' | #commented cmd would skip evey other line in print statement (I would like than to to this in an entirely new column, which I couldn't get)
 tee $out/GeneticDistances_tMRCA.txt # 
 
 #[ -f $out/output.txt] && rm $out/output.txt
+echo "                       DONE."
