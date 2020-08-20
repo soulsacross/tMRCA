@@ -39,7 +39,7 @@ done < $file
 echo "                                                                                   "
 echo "There are`ls $out/*.ehh.gz | wc -l` putatively selected variant(s) in your dataset."
 echo "===================================================================================="
-echo "                         Beggining TMRCA calculation."
+echo "                       Getting haplotype breakpoints."
 echo "                                                                                   "
 
 # Get coordinates of flanking variants that have EHH < 0.25, that is, Pr[Homoz] drops below 25% and thus >75% of chromosomes have recombined off of the selected haplotype, following that we'll then go get the recombination distance (r) 
@@ -62,7 +62,7 @@ chmod 777 $out/$pop.output.txt
 
 echo "                                                                                   "
 echo "===================================================================================="
-echo "                       Getting genetic distances in cM."
+echo "             Getting genetic distances in cM and beginning TMRCA calculation."
 
 # Get genetic distances for such breakpoints of selected haplotypes and calculate tMRCA.
 while read l 
