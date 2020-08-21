@@ -83,7 +83,7 @@ awk '{print $0}
     NR%2{ p=$7;next}{if(length($7) != 0){
         print " "($7-p)" "(-25*100*log(0.25))/($7-p) " " "<<<- tMRCA"
         }
-}' | # awk -v n=1 '1; NR % n == 0 {print ""}' | #commented cmd would skip evey other line in print statement (I would like than to to this in an entirely new column, which I couldn't get)
+}' | # awk -v n=1 '1; NR % n == 0 {print ""}' | #commented cmd would skip every other line in print statement (I would like then to print this in an entirely new column, which I couldn't get)
 tee $out/$pop.GeneticDistances_tMRCA.txt # 
 
 
