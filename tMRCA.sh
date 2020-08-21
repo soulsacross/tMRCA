@@ -1,7 +1,7 @@
 #!/bin/bash
 : '
 The following script calculates the tMRCA for selected alleles.
-Provide coordinates in (-f), population name (1kG, e.g. "-p CLM"), output dir (-o). Needs also dir to PopLDdecay binary, vcf file and population list (l36) and TPED (l71) edits in-script.
+Provide coordinates in (-f), population name (1kG, e.g. "-p CLM"), output dir (-o). Needs also dir to PopLDdecay binary, vcf file and population list (l40) and TPED (l76) edits in-script.
 '
 
 pop=''
