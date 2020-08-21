@@ -31,7 +31,7 @@ echo "                                                                          
 
 #[ -f $out/$pop.output.txt ] && rm $out/$pop.output.txt
 
- Reading coordinates for selected variants
+# Reading coordinates for selected variants
 {
 read
 while  IFS=$',\t\r\n'  read -r l   
@@ -69,14 +69,13 @@ echo "                                                                          
 echo "===================================================================================="
 echo "             Getting genetic distances in cM and beginning TMRCA calculation."
 
- Get genetic distances for such breakpoints of selected haplotypes and calculate tMRCA.
+# Get genetic distances for such breakpoints of selected haplotypes and calculate tMRCA.
 while read l 
     do query_chr=$(echo $l | awk '{print "chr"$1}') 
     query_pos=$(echo $l | awk '{print $2}') 
     cM=$(zcat < ~/Dropbox/input_chr16/TPED/$query_chr.$pop.scans.input.tped.gz | grep -w $query_pos | awk '{print $3}') 
     echo $l " "$cM
 done < $out/$pop.output.txt | 
-
 
 #sed -e 's/  */ /g' | # space to tab substitution not currently working in Mac OSX, should be replaced by \t in Linux
 awk '{print $0} NR%2{ p=$7;next}{if(length($7) != 0){print " "($7-p)" "(-25*100*log(0.25))/($7-p) " " "<<<- tMRCA"}}' | # awk -v n=1 '1; NR % n == 0 {print ""}' | #commented cmd would skip evey other line in print statement (I would like than to to this in an entirely new column, which I couldn't get)
