@@ -37,7 +37,7 @@ read
 while  IFS=$',\t\r\n'  read -r l   
    do chr=$(echo $l | awk -F, '{print $1}')
    pos=$(echo $l | awk -F, '{print $2}')
-   [ -f $out/$pop.$chr.$pos.ehh.gz ] || ~/Dropbox/input_chr16/PopLDdecay/bin/PopLDdecay -InVCF /Volumes/PEDRO\ 70GB/Genetics/VCFphased/VCFphased/ALL."${chr:3:2}".PHASED.vcf.gz -OutStat $out/$pop.$chr.$pos  -SubPop ~/Dropbox/input_chr16/Pops/$pop.txt -EHH "${chr:3:2}":$pos
+   [ -f $out/$pop.$chr.$pos.ehh.gz ] || ~/Dropbox/input_chr16/PopLDdecay/bin/PopLDdecay -InVCF /Volumes/PEDRO\ 70GB/Genetics/VCFphased/VCFphased/ALL."${chr:3:2}".PHASED.vcf.gz -OutStat $out/$pop.$chr.$pos  -SubPop ~/Dropbox/input_chr16/Pops/$pop.txt -MaxDist 1000 -EHH "${chr:3:2}":$pos
 done 
 }< $file
 
@@ -73,7 +73,7 @@ echo "             Getting genetic distances in cM and beginning TMRCA calculati
 while read l 
     do query_chr=$(echo $l | awk '{print "chr"$1}') 
     query_pos=$(echo $l | awk '{print $2}') 
-    cM=$(zcat < ~/Dropbox/input_chr16/TPED/$query_chr.$pop.scans.input.tped.gz | grep -w $query_pos | awk '{print $3}') 
+    cM=$(cat < ~/Dropbox/input_chr16/GRCh37/plink.$query_chr.GRCh37.map | grep -w $query_pos | awk '{print $3}') 
     echo $l " "$cM
 done < $out/$pop.output.txt | 
 
